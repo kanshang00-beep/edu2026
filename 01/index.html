@@ -1,0 +1,413 @@
+import React, { useState } from 'react';
+import { 
+  BookOpen, 
+  Scale, 
+  Car, 
+  CheckCircle2, 
+  AlertTriangle, 
+  HelpCircle, 
+  ChevronRight, 
+  ChevronLeft,
+  Brain,
+  Users,
+  Lightbulb,
+  Trophy,
+  Image as ImageIcon,
+  X,
+  Home
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('intro');
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 퀴즈 데이터
+  const quizData = [
+    {
+      question: "인공지능이 '완벽하게' 공정할 수 없는 가장 근본적인 이유는 무엇인가요?",
+      options: [
+        "인공지능이 인간보다 지능이 낮기 때문",
+        "인간이 만든 데이터와 알고리즘에 기반해 학습하기 때문",
+        "인공지능은 감정을 가지고 있기 때문",
+        "컴퓨터 하드웨어의 성능 한계 때문"
+      ],
+      answer: 1,
+      explanation: "인공지능은 중립적으로 보이지만, 학습하는 데이터와 설계된 알고리즘에 포함된 인간의 편향성을 그대로 학습하게 됩니다."
+    },
+    {
+      question: "인간의 편향과 인공지능의 편향을 비교했을 때, 인공지능 편향의 특징은?",
+      options: [
+        "시간과 경험에 따라 자연스럽게 변한다",
+        "데이터나 알고리즘을 변경하지 않는 한 동일한 패턴을 유지한다",
+        "자각과 교육을 통해 스스로 수정할 수 있다",
+        "개인에게만 영향을 미치고 시스템 전체에는 영향이 없다"
+      ],
+      answer: 1,
+      explanation: "인공지능의 편향은 고정적이며, 인위적인 수정(데이터 보완 등)이 없는 한 항상 동일한 결과를 냅니다."
+    },
+    {
+      question: "트롤리 문제에서 '육교 위의 목격자' 사례(직접 밀기)에 대한 찬성 비율은 얼마였나요?",
+      options: [
+        "89%",
+        "50%",
+        "11%",
+        "0%"
+      ],
+      answer: 2,
+      explanation: "사람들은 선로 전환기를 당기는 '간접적 개입'에는 89%가 찬성했으나, 직접 사람을 미는 '직접적 수단' 행위에는 11%만이 찬성했습니다."
+    },
+    {
+      question: "MIT의 '모럴 머신' 연구 결과, 사람들이 가장 우선적으로 보호하고자 한 대상 1위는?",
+      options: [
+        "남성 의사",
+        "임신한 여성",
+        "소녀",
+        "유모차를 끄는 사람"
+      ],
+      answer: 3,
+      explanation: "사회적 합의 결과, 유모차를 끄는 사람이 보호 대상 순위에서 가장 높게 나타났습니다."
+    }
+  ];
+
+  const handleAnswer = (index) => {
+    const newAnswers = [...userAnswers, index];
+    setUserAnswers(newAnswers);
+    if (index === quizData[currentQuestion].answer) {
+      setScore(score + 1);
+    }
+
+    if (currentQuestion + 1 < quizData.length) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setShowResult(true);
+    }
+  };
+
+  const resetQuiz = () => {
+    setQuizStarted(false);
+    setCurrentQuestion(0);
+    setScore(0);
+    setShowResult(false);
+    setUserAnswers([]);
+  };
+
+  // 컨텐츠 컴포넌트
+  const IntroSection = () => (
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
+          <h3 className="text-xl font-bold text-blue-800 flex items-center gap-2">
+            <Brain className="w-6 h-6" /> 인공지능은 왜 윤리를 배워야 할까요?
+          </h3>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700 transition-all text-sm shadow-sm"
+          >
+            <ImageIcon className="w-4 h-4" /> 인포그래픽 보기
+          </button>
+        </div>
+        <p className="text-gray-700 leading-relaxed">
+          AI는 감정을 느끼거나 독립적인 도덕적 가치를 판단하는 존재가 아닙니다. 
+          오직 <strong>'기계학습 알고리즘'</strong>과 <strong>'프로그래밍'</strong>에 의해 작동하죠. 
+          따라서 설계 과정이나 학습 데이터에 따라 언제든 비윤리적인 판단을 내릴 위험이 있습니다.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-5 border rounded-xl hover:shadow-md transition-shadow bg-white">
+          <div className="w-10 h-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center mb-3">
+            <AlertTriangle className="w-6 h-6" />
+          </div>
+          <h4 className="font-bold mb-2">학습 데이터 편향</h4>
+          <p className="text-sm text-gray-600">특정 계층의 데이터가 부족하거나 특정 속성에 과도한 가중치가 부여될 때 발생합니다.</p>
+        </div>
+        <div className="p-5 border rounded-xl hover:shadow-md transition-shadow bg-white">
+          <div className="w-10 h-10 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mb-3">
+            <Users className="w-6 h-6" />
+          </div>
+          <h4 className="font-bold mb-2">알고리즘 편향</h4>
+          <p className="text-sm text-gray-600">과거의 차별적 관행이나 불균형이 담긴 데이터가 모델에 고스란히 반영된 경우입니다.</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const BiasSection = () => (
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+        <Scale className="w-6 h-6 text-indigo-600" /> 인간 vs 인공지능의 편향
+      </h3>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
+          <thead>
+            <tr className="bg-indigo-600 text-white">
+              <th className="p-4">항목</th>
+              <th className="p-4">인간의 편향</th>
+              <th className="p-4">인공지능의 편향</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y">
+            <tr>
+              <td className="p-4 font-bold bg-gray-50">근본 이유</td>
+              <td className="p-4">경험, 문화, 교육</td>
+              <td className="p-4">학습 데이터, 알고리즘</td>
+            </tr>
+            <tr>
+              <td className="p-4 font-bold bg-gray-50">변경 가능성</td>
+              <td className="p-4 text-green-600">유동적 (시간과 경험)</td>
+              <td className="p-4 text-red-600">고정적 (변경 전까지 유지)</td>
+            </tr>
+            <tr>
+              <td className="p-4 font-bold bg-gray-50">인식/수정</td>
+              <td className="p-4">자각 및 교육 필요</td>
+              <td className="p-4">데이터 보완 및 코드 수정</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="bg-amber-50 p-4 rounded-xl border-l-4 border-amber-400">
+        <p className="text-sm text-amber-800">
+          <strong>주의!</strong> 인공지능의 의인화 특성 때문에 우리가 편향된 정보를 무비판적으로 수용할 위험이 큽니다.
+        </p>
+      </div>
+    </div>
+  );
+
+  const DilemmaSection = () => (
+    <div className="space-y-8 animate-in fade-in duration-500">
+      <div>
+        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-red-600">
+          <AlertTriangle className="w-6 h-6" /> 트롤리 딜레마 체험
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-6 border-2 border-dashed rounded-2xl bg-white text-center">
+            <h4 className="font-bold text-lg mb-2">사례 1: 선로 전환기</h4>
+            <p className="text-gray-600 mb-4 text-sm">5명을 살리기 위해 레버를 당겨 1명이 있는 선로로 보냅니다.</p>
+            <div className="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
+              <div className="bg-green-500 h-full" style={{width: '89%'}}></div>
+            </div>
+            <p className="text-xs mt-2 text-gray-500">인간 응답자의 89% 찬성</p>
+          </div>
+          <div className="p-6 border-2 border-dashed rounded-2xl bg-white text-center">
+            <h4 className="font-bold text-lg mb-2">사례 2: 직접 밀기</h4>
+            <p className="text-gray-600 mb-4 text-sm">육교 위 한 사람을 직접 선로로 밀어 전차를 멈춥니다.</p>
+            <div className="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
+              <div className="bg-red-500 h-full" style={{width: '11%'}}></div>
+            </div>
+            <p className="text-xs mt-2 text-gray-500">인간 응답자의 11% 찬성</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gray-900 text-white p-6 rounded-2xl">
+        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+          <Car className="w-6 h-6 text-blue-400" /> 자율주행차의 선택 (Moral Machine)
+        </h3>
+        <p className="mb-4 text-gray-300">누구를 보호해야 할까요? 학계의 주요 논쟁 기준입니다.</p>
+        <ul className="space-y-3">
+          <li className="flex gap-3 items-start bg-gray-800 p-3 rounded-lg">
+            <span className="bg-blue-600 px-2 py-0.5 rounded text-xs">나이</span>
+            <p className="text-sm">어린이의 미래 가치 vs 모든 생명은 평등하다</p>
+          </li>
+          <li className="flex gap-3 items-start bg-gray-800 p-3 rounded-lg">
+            <span className="bg-green-600 px-2 py-0.5 rounded text-xs">사회적 가치</span>
+            <p className="text-sm">사회 공헌도 vs 생명의 등급화 비판</p>
+          </li>
+          <li className="flex gap-3 items-start bg-gray-800 p-3 rounded-lg">
+            <span className="bg-purple-600 px-2 py-0.5 rounded text-xs">무작위</span>
+            <p className="text-sm">인간의 선택 권한 없음 vs 책임 회피 지적</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+
+  const QuizSection = () => (
+    <div className="animate-in zoom-in duration-300">
+      {!quizStarted ? (
+        <div className="text-center py-12 bg-white rounded-2xl shadow-sm border">
+          <Trophy className="w-16 h-16 text-amber-500 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold mb-2">AI 윤리 퀴즈 챌린지</h3>
+          <p className="text-gray-600 mb-6">학습한 내용을 바탕으로 퀴즈를 풀어보세요!</p>
+          <button 
+            onClick={() => setQuizStarted(true)}
+            className="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:bg-indigo-700 transition-colors"
+          >
+            시작하기
+          </button>
+        </div>
+      ) : showResult ? (
+        <div className="bg-white p-8 rounded-2xl shadow-sm border text-center">
+          <h3 className="text-3xl font-bold mb-4">결과: {score} / {quizData.length}</h3>
+          <div className="mb-6">
+            <p className="text-gray-600">
+              {score === quizData.length ? "완벽합니다! AI 윤리 전문가이시군요!" : "잘 하셨습니다! 조금 더 복습해볼까요?"}
+            </p>
+          </div>
+          <div className="space-y-4 text-left mb-8">
+            {quizData.map((item, idx) => (
+              <div key={idx} className={`p-4 rounded-lg border ${userAnswers[idx] === item.answer ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                <p className="font-bold text-sm mb-1">{idx+1}. {item.question}</p>
+                <p className="text-xs text-gray-600">{item.explanation}</p>
+              </div>
+            ))}
+          </div>
+          <button 
+            onClick={resetQuiz}
+            className="bg-gray-200 text-gray-800 px-6 py-2 rounded-full font-bold hover:bg-gray-300 transition-colors"
+          >
+            다시 도전하기
+          </button>
+        </div>
+      ) : (
+        <div className="bg-white p-8 rounded-2xl shadow-sm border">
+          <div className="flex justify-between items-center mb-6">
+            <span className="text-sm font-bold text-indigo-600 uppercase tracking-wider">Question {currentQuestion + 1} / {quizData.length}</span>
+            <div className="w-32 bg-gray-200 h-2 rounded-full overflow-hidden">
+              <div className="bg-indigo-600 h-full transition-all duration-300" style={{width: `${((currentQuestion + 1)/quizData.length)*100}%`}}></div>
+            </div>
+          </div>
+          <h4 className="text-xl font-bold mb-8 leading-tight">{quizData[currentQuestion].question}</h4>
+          <div className="grid grid-cols-1 gap-3">
+            {quizData[currentQuestion].options.map((option, idx) => (
+              <button 
+                key={idx}
+                onClick={() => handleAnswer(idx)}
+                className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 transition-all flex items-center justify-between group"
+              >
+                <span>{option}</span>
+                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-indigo-500" />
+              </button>
+            ))}
+          </div>
+          <div className="mt-8 flex items-start gap-2 bg-blue-50 p-4 rounded-xl">
+            <HelpCircle className="w-5 h-5 text-blue-500 shrink-0" />
+            <p className="text-sm text-blue-800"><strong>Hint:</strong> {quizData[currentQuestion].explanation.split('.')[0]}.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8 relative">
+      <div className="max-w-4xl mx-auto">
+        {/* Navigation Bar at the very top */}
+        <div className="flex justify-start mb-6">
+          <a 
+            href="../index.html" 
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm transition-all font-medium text-sm"
+          >
+            <Home className="w-4 h-4" />
+            홈으로 이동
+          </a>
+        </div>
+
+        {/* Header */}
+        <header className="mb-10 text-center">
+          <div className="inline-block p-2 bg-indigo-100 text-indigo-700 rounded-lg text-sm font-bold mb-4">
+            AI Ethics Lecture Series
+          </div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">인공지능의 선택, 우리의 미래</h1>
+          <p className="text-slate-500">인공지능 윤리 딜레마 사례 해설 인터랙티브 가이드</p>
+        </header>
+
+        {/* Tab Navigation */}
+        <nav className="flex space-x-1 bg-white p-1.5 rounded-2xl shadow-sm mb-8 sticky top-4 z-10 border overflow-x-auto">
+          {[
+            { id: 'intro', label: '도입 & 편향성', icon: BookOpen },
+            { id: 'compare', label: '편향 비교', icon: Scale },
+            { id: 'dilemma', label: '윤리 딜레마', icon: AlertTriangle },
+            { id: 'quiz', label: '퀴즈 챌린지', icon: Trophy }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => {setActiveTab(tab.id); if(tab.id !== 'quiz') resetQuiz();}}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all whitespace-nowrap ${
+                activeTab === tab.id 
+                ? 'bg-indigo-600 text-white shadow-md' 
+                : 'text-slate-500 hover:bg-slate-100'
+              }`}
+            >
+              <tab.icon className="w-4 h-4" />
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Main Content Area */}
+        <main className="min-h-[500px]">
+          {activeTab === 'intro' && <IntroSection />}
+          {activeTab === 'compare' && <BiasSection />}
+          {activeTab === 'dilemma' && <DilemmaSection />}
+          {activeTab === 'quiz' && <QuizSection />}
+        </main>
+
+        {/* Footer */}
+        <footer className="mt-16 pt-8 border-t border-slate-200 text-center text-slate-400 text-sm">
+          <div className="flex justify-center gap-6 mb-4">
+            <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> 기술적 이해</span>
+            <span className="flex items-center gap-1"><Lightbulb className="w-4 h-4" /> 비판적 사고</span>
+            <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 사회적 합의</span>
+          </div>
+          <p>© 2024 AI Ethics Interactive Guide. All rights reserved.</p>
+        </footer>
+      </div>
+
+      {/* Modal / Popup for Infographic */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-in zoom-in duration-300">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h3 className="font-bold text-lg flex items-center gap-2">
+                <ImageIcon className="w-5 h-5 text-indigo-600" /> 특강 인포그래픽
+              </h3>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-4 overflow-auto flex justify-center items-center bg-gray-50 flex-1 min-h-[300px]">
+              <div className="relative group w-full h-full flex items-center justify-center">
+                <img 
+                  src="특강인포04.png" 
+                  alt="특강인포04" 
+                  className="max-w-full h-auto rounded shadow-sm"
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.style.display = 'none';
+                    e.target.parentNode.innerHTML = `
+                      <div class="text-center p-12 bg-white border-2 border-dashed border-gray-300 rounded-xl">
+                        <p class="text-gray-400 mb-2">이미지 파일(특강인포04.png)을 찾을 수 없습니다.</p>
+                        <p class="text-sm text-gray-500 italic">이미지가 실제 경로에 존재해야 표시됩니다.</p>
+                        <div class="mt-4 p-4 bg-indigo-50 text-indigo-700 text-xs rounded-lg">
+                          [이미지 영역: 여기에 특강인포04.png가 표시됩니다]
+                        </div>
+                      </div>
+                    `;
+                  }}
+                />
+              </div>
+            </div>
+            <div className="p-4 bg-gray-50 border-t text-center">
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="px-6 py-2 bg-gray-800 text-white rounded-xl font-bold hover:bg-gray-900 transition-colors"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;

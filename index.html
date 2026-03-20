@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인공지능 기초 - 미래를 설계하는 수업</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script>
+        // Tailwind dark mode configuration
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass shadow-sm transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- 수정된 부분: AI BASIS 2024 -> AI 디지털 역량 강화 교육 디지털 도구 -->
+            <div class="text-xl md:text-2xl font-black gradient-text">AI 디지털 역량 강화 교육 디지털 도구</div>
+            
+            <div class="hidden lg:flex items-center space-x-8 font-medium">
+                <a href="#home" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">홈</a>
+                <a href="#ethics" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">인공지능 윤리</a>
+                <a href="./01/index.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">윤리적 딜레마</a>
+                <a href="#quiz" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">윤리 체크</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:ring-2 ring-indigo-500 transition-all">
+                    <!-- Sun Icon (visible in dark mode) -->
+                    <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                    <!-- Moon Icon (visible in light mode) -->
+                    <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                </button>
+                <button class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition hidden sm:block">
+                    수업 입장
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-40 pb-20 px-6 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-12 md:mb-0">
+                <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 dark:text-white">
+                    인공지능으로<br>
+                    <span class="gradient-text">세상을 더 똑똑하게</span>
+                </h1>
+                <p class="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    이번 학기 '인공지능 기초' 수업에서는 AI의 원리부터<br>
+                    올바른 사용법(윤리), 그리고 직접 고민해보는 딜레마 토론까지 함께합니다.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#ethics" class="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 transition">윤리 배우기로 고쳐볼까</a>
+                    <a href="./01/index.html" class="bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border-2 border-indigo-600 dark:border-indigo-400 px-8 py-4 rounded-xl font-bold hover:bg-indigo-50 dark:hover:bg-slate-700 transition text-center">윤리적 딜레마</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center relative">
+                <div class="w-80 h-80 bg-indigo-200 dark:bg-indigo-900 rounded-full absolute filter blur-3xl opacity-30 animate-pulse"></div>
+                <div class="animate-float">
+                    <svg class="w-64 h-64 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: AI Ethics -->
+    <section id="ethics" class="py-24 bg-white dark:bg-slate-900 px-6 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black mb-4 dark:text-white">인공지능 윤리</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-lg">기술보다 중요한 것은 그것을 사용하는 사람의 마음가짐입니다.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="p-8 bg-slate-50 dark:bg-slate-800 rounded-3xl card-hover border border-slate-100 dark:border-slate-700">
+                    <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 dark:text-white">프라이버시와 보안</h3>
+                    <p class="text-slate-600 dark:text-slate-300">AI가 수집하는 개인정보를 보호하고, 데이터가 어떻게 사용되는지 명확히 알아야 합니다.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="p-8 bg-slate-50 dark:bg-slate-800 rounded-3xl card-hover border border-slate-100 dark:border-slate-700">
+                    <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 dark:text-white">공정성과 다양성</h3>
+                    <p class="text-slate-600 dark:text-slate-300">특정 집단에 대한 편향된 데이터 학습을 방지하고 차별 없는 AI를 만들어야 합니다.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="p-8 bg-slate-50 dark:bg-slate-800 rounded-3xl card-hover border border-slate-100 dark:border-slate-700">
+                    <div class="w-14 h-14 bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 dark:text-white">투명성과 책임성</h3>
+                    <p class="text-slate-600 dark:text-slate-300">AI의 결정 과정을 설명할 수 있어야 하며, 그 결과에 대해 개발자가 책임을 집니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Section: Ethics Quiz -->
+    <section id="quiz" class="py-24 bg-indigo-900 dark:bg-indigo-950 text-white px-6 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-black mb-8">AI 윤리 체크리스트</h2>
+            <div class="bg-white/10 p-8 rounded-3xl text-left border border-white/20 backdrop-blur-sm">
+                <div id="checklist" class="space-y-4">
+                    <label class="flex items-center space-x-4 cursor-pointer p-4 rounded-xl hover:bg-white/5 transition">
+                        <input type="checkbox" class="w-6 h-6 rounded border-none bg-indigo-500 checked:bg-pink-500 transition">
+                        <span class="text-lg">사용자의 동의를 받았나요?</span>
+                    </label>
+                    <label class="flex items-center space-x-4 cursor-pointer p-4 rounded-xl hover:bg-white/5 transition">
+                        <input type="checkbox" class="w-6 h-6 rounded border-none bg-indigo-500 checked:bg-pink-500 transition">
+                        <span class="text-lg">편향된 데이터를 포함하고 있지는 않나요?</span>
+                    </label>
+                    <label class="flex items-center space-x-4 cursor-pointer p-4 rounded-xl hover:bg-white/5 transition">
+                        <input type="checkbox" class="w-6 h-6 rounded border-none bg-indigo-500 checked:bg-pink-500 transition">
+                        <span class="text-lg">AI의 목적이 공익에 부합하나요?</span>
+                    </label>
+                    <label class="flex items-center space-x-4 cursor-pointer p-4 rounded-xl hover:bg-white/5 transition">
+                        <input type="checkbox" class="w-6 h-6 rounded border-none bg-indigo-500 checked:bg-pink-500 transition">
+                        <span class="text-lg">문제 발생 시 책임질 주체가 명확한가요?</span>
+                    </label>
+                </div>
+                <div class="mt-8 text-center">
+                    <button onclick="showEthicsScore()" class="bg-pink-500 hover:bg-pink-600 px-8 py-3 rounded-full font-bold transition shadow-lg shadow-pink-900/40">결과 확인</button>
+                </div>
+                <p id="scoreMessage" class="mt-6 text-center font-bold text-xl hidden"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white dark:bg-slate-900 px-6 border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-slate-400">
+            <div class="mb-4 md:mb-0">
+                <span class="text-slate-900 dark:text-slate-200 font-bold">인공지능기초 수업</span> © 2024 정보 선생님. All rights reserved.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-indigo-600 transition">문의하기</a>
+                <a href="#" class="hover:text-indigo-600 transition">강의자료</a>
+                <a href="#" class="hover:text-indigo-600 transition">커뮤니티</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Theme Management ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Check local storage or system preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // --- Ethics Quiz Function ---
+        function showEthicsScore() {
+            const checkboxes = document.querySelectorAll('#checklist input[type="checkbox"]');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const message = document.getElementById('scoreMessage');
+            
+            message.classList.remove('hidden');
+            
+            if (checkedCount === checkboxes.length) {
+                message.innerHTML = "✨ 훌륭합니다! 윤리적 AI 설계 준비가 완료되었습니다.";
+                message.className = "mt-6 text-center font-bold text-xl text-green-400";
+            } else if (checkedCount > 0) {
+                message.innerHTML = `⚠️ ${checkboxes.length - checkedCount}개의 항목을 더 점검해보세요.`;
+                message.className = "mt-6 text-center font-bold text-xl text-yellow-400";
+            } else {
+                message.innerHTML = "🔍 모든 항목을 꼼꼼히 체크해주세요!";
+                message.className = "mt-6 text-center font-bold text-xl text-red-400";
+            }
+        }
+
+        // --- Scroll Reveal ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
